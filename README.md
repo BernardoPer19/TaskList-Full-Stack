@@ -29,7 +29,6 @@ Esta es una API de tareas que permite a los usuarios registrar sus tareas, gesti
 - **Node.js** con **Express** para la creación de la API
 - **JWT (JSON Web Tokens)** para autenticación
 - **PostgreSQL** para almacenamiento de datos
-- **Sequelize** como ORM (si usas SQL)
 - **Bcrypt.js** para encriptación de contraseñas
 - **Express-rate-limit** para proteger las rutas
 - **Cors** para permitir el acceso entre diferentes orígenes
