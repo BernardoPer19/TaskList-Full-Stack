@@ -1,12 +1,10 @@
 import bcrypt from "bcrypt";
-
-import { SALTS_ROUNDS } from "../config.js";
 import pool from "../db/db.js";
+import { SALTS_ROUNDS } from "../config.js";
 
 export class AuthModel {
   static async HashingPassword(password) {
-    const hashPassword = await bcrypt.hash(password, SALTS_ROUNDS);
-    return hashPassword;
+    return await bcrypt.hash(password, SALTS_ROUNDS);
   }
 
   static async register({ user_name, email, password, createAcc }) {
@@ -14,10 +12,10 @@ export class AuthModel {
       const hashPassword = await this.HashingPassword(password);
 
       const query = `INSERT INTO public.users_tb(
-	 user_name, email, password, "createAcc")
-	VALUES ($1,$2,$3,$4)`;
+        user_name, email, password, "createAcc"
+      ) VALUES ($1, $2, $3, $4) RETURNING *;`;
 
-      const data = [user_id, user_name, email, hashPassword, createAcc];
+      const data = [user_name, email, hashPassword, createAcc];
 
       const { rows } = await pool.query(query, data);
 
@@ -32,20 +30,15 @@ export class AuthModel {
       const query = `SELECT * FROM users_tb WHERE email = $1;`;
       const result = await pool.query(query, [email]);
 
-      if (result.rows.length === 0) {
-        return null;
-      }
-
-      return result.rows[0];
+      return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
       throw new Error("Error verifying email: " + error.message);
     }
   }
 
-  static comparePasswords(plainPassword, hashedPassword) {
+  static async comparePasswords(plainPassword, hashedPassword) {
     try {
-      const isMatch = bcrypt.compare(plainPassword, hashedPassword);
-      return isMatch;
+      return await bcrypt.compare(plainPassword, hashedPassword);
     } catch (error) {
       throw new Error("Error comparing passwords: " + error.message);
     }
