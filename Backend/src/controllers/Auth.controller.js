@@ -45,7 +45,7 @@ export const loginUser = async (req, res) => {
     }
     console.log(user.password);
     console.log(password);
-    
+
     const validPassword = await AuthModel.comparePasswords(
       password,
       user.password
@@ -70,8 +70,24 @@ export const loginUser = async (req, res) => {
       .status(500)
       .json({ message: "Error en el login", error: error.message });
   }
+};
 
+export const protectedRoute = async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Usuario no autorizado" });
+  }
 
-  
+  res.status(200).json({ message: "Usuario autorizado", user: req.user });
+};
 
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("access_token", { httpOnly: true, sameSite: "Strict" });
+
+    return res.status(200).json({ message: "Logout exitoso" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error al cerrar sesión", error: error.message });
+  }
 };
