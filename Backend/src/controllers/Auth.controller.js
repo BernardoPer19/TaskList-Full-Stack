@@ -1,5 +1,8 @@
+import { JWT_PASSWORD_SECRET } from "../config.js";
 import { AuthModel } from "../model/AuthModel.js";
 import { validateRegister } from "../Schemas/AuthSchema.js";
+import jwt from 'jsonwebtoken'
+
 
 export const registerUser = async (req, res) => {
   try {
@@ -57,7 +60,7 @@ export const loginUser = async (req, res) => {
     const token = AuthModel.createToken(user);
     const options = {
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "none",
       maxAge: 1000 * 60 * 60,
     };
 
@@ -89,5 +92,23 @@ export const logout = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error al cerrar sesión", error: error.message });
+  }
+};
+
+
+
+export const verify = async (req, res) => {
+  try {
+    const { email } = req.user;
+
+    const userFound = await AuthModel.verifyByEmail(email);
+
+    if (!userFound) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    res.json({ message: "Usuario autenticado", user: userFound });
+  } catch (error) {
+    return res.status(500).json({ message: "Error en la autenticación" });
   }
 };

@@ -1,8 +1,8 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { UserType } from "../types/UserType";
-import { useAuthContext } from "../context/AuthContex";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function RegisterPage() {
   const { signup, isAuthenticated, errors: RegisterErrors } = useAuthContext();

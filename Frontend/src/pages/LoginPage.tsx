@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { UserLoginType } from "../types/UserType";
-import { useAuthContext } from "../context/AuthContex";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const LoginPage = () => {
   const {
