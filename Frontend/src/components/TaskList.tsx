@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { useTasks } from "../context/TasksContext";
+import { Link } from "react-router-dom";
 
 function TaskList() {
   const { getTasks, tasks, deleteTask } = useTasks();
-
-
-  
 
   useEffect(() => {
     getTasks();
@@ -19,7 +17,6 @@ function TaskList() {
         </h1>
         <div className="space-y-4">
           {tasks.length === 0 ? (
-            
             <p className="text-center text-gray-600">No hay tareas aún.</p>
           ) : (
             tasks.map((task) => (
@@ -32,22 +29,25 @@ function TaskList() {
                     {task.titleTask}
                   </h2>
                   <div className="flex space-x-2">
+                    <Link to={`/tasks/${task.task_id}`}>
+                      <button className="bg-yellow-500 text-white py-1 px-3 rounded-lg hover:bg-yellow-600 transition">
+                        Editar
+                      </button>
+                    </Link>
                     <button
-                      // onClick={() => editTask(task)}
-                      className="bg-yellow-500 text-white py-1 px-3 rounded-lg hover:bg-yellow-600 transition"
+                      onClick={() => deleteTask(task.task_id)}
+                      className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
                     >
-                      Editar
+                      Eliminar
                     </button>
-                    <button
-                    onClick={() => deleteTask(task.task_id)} 
-                    className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
-                  >
-                    Eliminar
-                  </button>
                   </div>
                 </div>
                 <p className="text-gray-600">{task.descriptionTask}</p>
-                <p className={`text-gray-600 ${task.isComplete ? 'text-green-600' : 'text-red-600'}`}>
+                <p
+                  className={`text-gray-600 ${
+                    task.isComplete ? "text-green-600" : "text-red-600"
+                  }`}
+                >
                   {task.isComplete ? "Completado" : "No completado"}
                 </p>
               </div>

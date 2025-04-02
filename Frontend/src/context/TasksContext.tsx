@@ -20,18 +20,24 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
 
-  const createTasks = async (tasks: TaskType) => {
-    const response = await createTasksRequest(tasks);
-    console.log(response);
+  
+  const createTasks = async (task: TaskType) => {
+    try {
+      const response = await createTasksRequest(task);
+      console.log(response.data);
+
+      if (response.status === 201) {
+        setTasks((prevTasks) => [...prevTasks, response.data]);
+      }
+    } catch (error) {
+      console.error("Error creating task:", error.response?.data?.message);
+    }
   };
 
   const getTasks = async () => {
     try {
       const response = await getTasksRequest();
       setTasks(response.data);
-
-      console.log(response.data);
-      console.log(response.data[0].task_id);
     } catch (error) {
       console.log(error);
     }
@@ -41,6 +47,9 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({
     try {
       const response = await deleteTasksRequest(taskId);
       console.log(response.data.message);
+      if (response.status == 200) {
+        setTasks(tasks.filter((task) => task.task_id !== taskId));
+      }
     } catch (error) {
       console.error("Error deleting task:", error.response?.data?.message);
     }

@@ -1,10 +1,20 @@
 import { useForm } from "react-hook-form";
 import { TaskType } from "../types/TasksType";
 import { useTasks } from "../context/TasksContext";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function TaskForm() {
   const { register, handleSubmit } = useForm<TaskType>();
   const { createTasks } = useTasks();
+
+  const params = useParams()
+
+
+  useEffect(()=>{
+    console.log(params);
+    
+  },[])
 
   const addTask = (data: TaskType) => {
     createTasks(data)

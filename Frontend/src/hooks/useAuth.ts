@@ -66,13 +66,13 @@ export const useAuth = () => {
     const verifyUser = async () => {
       try {
         const res = await verifyTokenRequest();
-        console.log("Respuesta de verificación del token:", res);
+        // console.log("Respuesta de verificación del token:", res);
 
         if (!res.data) {
           console.log("Respuesta sin datos");
           setIsAuthenticated(false);
         } else {
-          console.log("Token verificado con éxito");
+          // console.log("Token verificado con éxito");
           setIsAuthenticated(true);
           setUser(res.data);
         }
