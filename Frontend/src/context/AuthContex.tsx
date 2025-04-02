@@ -8,19 +8,21 @@ interface AuthContextType {
   sigin: (user: UserLoginType) => Promise<void>;
   isAuthenticated: boolean;
   errors: string;
+  loading: boolean;
 }
 
 interface ChildrenType {
   children: React.ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export function AuthProvider({ children }: ChildrenType) {
-  const { user, signup, sigin, errors, isAuthenticated } = useAuth();
+  const { user, signup, sigin, errors, isAuthenticated, loading } = useAuth();
 
-  const value = { user, signup, sigin, errors, isAuthenticated };
+  const value = { user, signup, sigin, errors, isAuthenticated, loading };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
-

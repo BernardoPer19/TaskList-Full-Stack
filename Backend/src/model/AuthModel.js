@@ -30,24 +30,22 @@ export class AuthModel {
   }
 
   static createToken(user) {
-    const token = jwt.sign(
-      {
-        id: user.user_id,
-        name: user.user_name,
-        email: user.email,
-        createAcc: user.createAcc,
-      },
-      JWT_PASSWORD_SECRET,
-      { expiresIn: "2h" }
-    );
-
-    if (!token) {
-      throw new Error("El token no pudo ser generado.");
+    try {
+      const token = jwt.sign(
+        {
+          id: user.user_id,
+          name: user.user_name,
+          email: user.email,
+          createAcc: user.createAcc,
+        },
+        JWT_PASSWORD_SECRET,
+        { expiresIn: "2h" }
+      );
+      return token;
+    } catch (error) {
+      throw new Error("Error generating token: " + error.message);
     }
-
-    return token;
   }
-
   static async register({ user_name, email, password, createAcc }) {
     try {
       const hashPassword = await this.HashingPassword(password);

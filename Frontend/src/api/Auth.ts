@@ -4,14 +4,10 @@ import { UserLoginType, UserType } from "../types/UserType";
 const API = "http://localhost:3000";
 
 export const registerRequest = (user: UserType) =>
-  axios.post(`${API}/register`, user);
+  axios.post(`${API}/register`, user, { withCredentials: true });
 
-export const loginRequest = (user:UserLoginType) => axios.post(`${API}/login`, user)
+export const loginRequest = (user: UserLoginType) =>
+  axios.post(`${API}/login`, user, { withCredentials: true });
 
-export const verifyTokenRequest = (token: string) => 
-  axios.get(`${API}/verify`, {
-    headers: {
-      Authorization: `Bearer ${token}`,  // Enviamos el token como Bearer en la cabecera
-    },
-    withCredentials: true,
-  });
+export const verifyTokenRequest = () =>
+  axios.get(`${API}/verify`, { withCredentials: true });

@@ -3,13 +3,12 @@ import { UserLoginType, UserType } from "../types/UserType";
 import { siginService, signupService } from "../services/AuthServices";
 import { createData } from "../util/data";
 import { verifyTokenRequest } from "../api/Auth";
-import Cookie from 'js-cookie'
-
 
 export const useAuth = () => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   const handleError = (error: any) => {
     if (error?.response) {
@@ -56,22 +55,11 @@ export const useAuth = () => {
     }
   }, [errors]);
 
+  
   useEffect(() => {
     const verifyUser = async () => {
-      const cookies = Cookiee.get();
-      console.log("Cookies obtenidas:", cookies);
-
-      const token = cookies.token;
-
-      if (!token) {
-        console.log("Token no encontrado");
-        setIsAuthenticated(false);
-        setUser(null);
-        return;
-      }
-
       try {
-        const res = await verifyTokenRequest(token);
+        const res = await verifyTokenRequest();
         console.log("Respuesta de verificación del token:", res);
 
         if (!res.data) {
@@ -85,11 +73,21 @@ export const useAuth = () => {
       } catch (error) {
         console.error("Error verificando el token:", error);
         setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
     };
 
     verifyUser();
   }, []);
-
-  return { sigin, signup, errors, setErrors, user, setUser, isAuthenticated };
+  return {
+    sigin,
+    signup,
+    errors,
+    setErrors,
+    user,
+    setUser,
+    isAuthenticated,
+    loading,
+  };
 };

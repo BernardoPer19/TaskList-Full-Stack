@@ -1,7 +1,6 @@
 import { JWT_PASSWORD_SECRET } from "../config.js";
 import { AuthModel } from "../model/AuthModel.js";
 import { validateRegister } from "../Schemas/AuthSchema.js";
-import jwt from 'jsonwebtoken'
 
 
 export const registerUser = async (req, res) => {
@@ -60,7 +59,8 @@ export const loginUser = async (req, res) => {
     const token = AuthModel.createToken(user);
     const options = {
       httpOnly: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: "Strict",
       maxAge: 1000 * 60 * 60,
     };
 
@@ -96,9 +96,10 @@ export const logout = async (req, res) => {
 };
 
 
-
 export const verify = async (req, res) => {
   try {
+    console.log("Usuario autenticado:", req.user);
+
     const { email } = req.user;
 
     const userFound = await AuthModel.verifyByEmail(email);
