@@ -10,4 +10,4 @@ export const TaskRouter = Router();
 
 TaskRouter.get("/tasks", authenticate, getTasks);
 TaskRouter.post("/tasks", authenticate, createTasks);
-TaskRouter.delete("/tasks/:id", authenticate, deleteTasks);
+TaskRouter.delete("/tasks", authenticate, deleteTasks);

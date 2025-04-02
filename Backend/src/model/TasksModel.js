@@ -29,17 +29,19 @@ export class TasksModel {
     }
   }
 
-  static async RemoveTasks(user_id, tasks_id) {
-    try {
-      const query = `DELETE FROM tasks_tb WHERE task_id = $1 AND user_id = $2`;
-      const data = [tasks_id, user_id];
-      const result = await pool.query(query, data);
-      return result.rowCount;
-    } catch (error) {
-      console.error(error.message);
-      throw new Error("Error al eliminar los datos en la DB");
-    }
-  }
+    static async RemoveTasks(user_id, tasks_id) {
+      try {
+        console.log("Eliminando tarea con task_id:", tasks_id, "y user_id:", user_id);  
+        const query = `DELETE FROM tasks_tb WHERE task_id = $1 AND user_id = $2`;
+        const data = [tasks_id, user_id];
+        
+        const result = await pool.query(query, data);
+        return result.rowCount;  
+      } catch (error) {
+        console.error("Error al eliminar tarea:", error.message);
+        throw new Error("Error al eliminar los datos en la DB");
+      }
+    } 
   // tasksModel.js
 
   static async UpdateTask(

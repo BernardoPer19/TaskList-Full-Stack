@@ -3,6 +3,7 @@ import { UserLoginType, UserType } from "../types/UserType";
 import { siginService, signupService } from "../services/AuthServices";
 import { createData } from "../util/data";
 import { verifyTokenRequest } from "../api/Auth";
+import Cookies from "js-cookie";
 
 export const useAuth = () => {
   const [user, setUser] = useState<UserType | null>(null);
@@ -46,6 +47,12 @@ export const useAuth = () => {
     }
   };
 
+  const logout = () => {
+    setUser(null);
+    setIsAuthenticated(false);
+    Cookies.remove("access_token"); 
+  };
+
   useEffect(() => {
     if (errors.length > 0) {
       const timer = setTimeout(() => {
@@ -55,7 +62,6 @@ export const useAuth = () => {
     }
   }, [errors]);
 
-  
   useEffect(() => {
     const verifyUser = async () => {
       try {
@@ -89,5 +95,6 @@ export const useAuth = () => {
     setUser,
     isAuthenticated,
     loading,
+    logout,
   };
 };

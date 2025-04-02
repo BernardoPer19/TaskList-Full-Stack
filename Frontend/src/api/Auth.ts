@@ -11,3 +11,9 @@ export const loginRequest = (user: UserLoginType) =>
 
 export const verifyTokenRequest = () =>
   axios.get(`${API}/verify`, { withCredentials: true });
+
+
+
+export const logoutRequest = () => {
+  axios.get("/logout")
+}

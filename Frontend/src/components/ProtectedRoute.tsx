@@ -3,7 +3,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 const ProtectedRoute = () => {
   const { isAuthenticated, loading } = useAuthContext();
-  console.log(loading, isAuthenticated);
   
   if (loading) {
     return <h1>Cargando...</h1>

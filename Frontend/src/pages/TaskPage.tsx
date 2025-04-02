@@ -1,8 +1,13 @@
 import React from 'react'
+import TaskForm from '../components/TaskFormPage'
+import TaskList from '../components/TaskList'
 
 function TaskPage() {
   return (
-    <div>TaskPage</div>
+    <div>
+        <TaskForm/>
+        <TaskList/>
+    </div>
   )
 }
 

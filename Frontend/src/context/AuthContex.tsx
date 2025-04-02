@@ -9,6 +9,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   errors: string;
   loading: boolean;
+  logout: () => void;
 }
 
 interface ChildrenType {
@@ -20,9 +21,17 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export function AuthProvider({ children }: ChildrenType) {
-  const { user, signup, sigin, errors, isAuthenticated, loading } = useAuth();
+  const { user, signup, sigin, errors, isAuthenticated, loading, logout } = useAuth();
 
-  const value = { user, signup, sigin, errors, isAuthenticated, loading };
+  const value = {
+    user,
+    signup,
+    sigin,
+    errors,
+    isAuthenticated,
+    loading,
+    logout,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
