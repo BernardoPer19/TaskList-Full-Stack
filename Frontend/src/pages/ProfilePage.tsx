@@ -41,14 +41,14 @@ const ProfilePage = () => {
           </div>
         </div>
 
-        {/* Edit Profile and Settings */}
+     
         <div className="text-center">
           <button className="bg-indigo-600 text-white px-8 py-3 rounded-full shadow-lg text-xl transform transition-all hover:bg-indigo-700 hover:scale-105 hover:shadow-2xl active:scale-95 mb-6">
             Editar Perfil
           </button>
         </div>
 
-        {/* Logout Button */}
+    
         <div className="text-center">
           <button
             onClick={logout}
